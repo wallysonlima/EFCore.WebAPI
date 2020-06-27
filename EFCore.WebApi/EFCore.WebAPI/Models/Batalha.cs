@@ -12,5 +12,7 @@ namespace EFCore.WebAPI.Models
         public string Nome {get; set;}
         public DateTime myProperty{get;set;}
         public DateTime DtFim {get; set;}
+
+        public List<HeroiBatalha> HeroisBatalhas{get; set;}
     }
 }

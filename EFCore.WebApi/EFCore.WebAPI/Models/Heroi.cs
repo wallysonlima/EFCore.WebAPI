@@ -7,7 +7,8 @@ namespace EFCore.WebAPI.Models
     {
         public int ID {get; set;}
         public string Nome {get; set;}
-        public Batalha  Batalha {get; set;}
-        public int BatalhaId {get; set;}
+        public List<Arma> Arma {get; set;}
+
+        public List<HeroiBatalha>HeroisBatalhas{get; set}
     }
 }
