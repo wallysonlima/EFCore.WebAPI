@@ -5,8 +5,13 @@ using System.Threading.Tasks;
 
 namespace EFCore.WebAPI.Data
 {
+
     public class HeroiContext : DbContext
     {
+        public HeroiContext()
+        {}
+
+        public HeroiContext(DbContextOptions<HeroiContext>options) : base(options)
         public DbSet<Heroi> Herois { get; set; }
         public DbSet<Batalha>  Batalhas{ get; set; }
         public DbSet<Arma> Armas {get; set;}
