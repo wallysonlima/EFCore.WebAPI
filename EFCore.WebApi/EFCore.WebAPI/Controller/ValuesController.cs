@@ -41,7 +41,8 @@ public ActionResult Get(int nameHero)
 {
     var listHeroi = _context.Herois
                     .Where( h => h.id ==1)
-                    FirstOrDefault();
+                    .OrderBy(h => h.id)
+                    .FirstOrDefault();
     
     listHeroi.Nome = "Homem Aranha";
 
@@ -70,3 +71,11 @@ public void Delete(int id)
     _context.Herois.Remove(heroi);
     _context.SaveChanges();
 }
+
+[httpGet("filtro/{nome}")]
+public ActionResult GetFiltro(string nome)
+{
+    var listHeroi = _context.Herois
+                    .Where(h => EF.functions.Like(h.Nome, $"%{nome}%"))
+                    .ToList();
+},,,,,,,,,,,,,,,,,,,,,,,
