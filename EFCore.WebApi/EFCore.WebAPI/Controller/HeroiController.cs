@@ -11,26 +11,14 @@ namespace EFCore.WebAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(HeroiController value)
+        public ActionResult Post(Heroi model)
         {
             try
             {
-            
-               var heroi = new HeroiController
-               {
-                   Id = id,
-                   Nome = "Homem de ferro",
-                   Armas = new List<Arma>
-                   {
-                       new Arma {Nome = "Mac 3"},
-                       new Arma {Nome = "Mac 5"}
-                   }
-               };
+                _context.Herois.Add(heroi);
+                _context.SaveChanges();
 
-               _context.Herois.Add(heroi);
-               _context.SaveChanges();
-
-               return OK(BAZINGA);
+                return OK(BAZINGA);
             }
 
 
@@ -45,8 +33,33 @@ namespace EFCore.WebAPI.Controllers
         {
             try 
             {
-                return Ok();
+                return Ok(new Heroi());
             } catch (Exception)
+            {
+                return BadRequest($"Erro: {ex}");
+            }
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Put(int id, Heroi)
+        {
+            try
+            {
+                if(_context.Herois
+                .AsNoTracking()
+                .FirstOrDefault(
+                h => h.id == id)
+                ) != null)
+                {
+                    _context.Update(model);
+                    _context.SaveChanges();
+
+                    return OK("Bazinga");
+                }
+
+                return ok("Não Encontrado!");
+            }
+            catch(Exception ex)
             {
                 return BadRequest($"Erro: {ex}");
             }
