@@ -4,36 +4,38 @@ namespace EFCore.WebAPI.Controllers
     [ApiController]
     public class BatalhaController:ControlerBase
     {
-        private readonly BatalhaContext _context;
-
-        public HeroiController(BatalhaContext context)
+        public HeroiController(IEFCoreRepository repo)
         {
-            _context;
+            _repo = repo;
         }
 
         //Consulta
         [HttpPost]
-        public ActionResult Post(HeroiController model)
+        public async Task<IActionResult> Post(HeroiController model)
         {
             try
             {
-                _context.Batalha.Add(batalha);
-                _context.SaveChanges();
+                _repo.Add(batalha);
 
-                return OK(BAZINGA);
+                if (await _repo.SaveChangeAsync())
+                {
+                    return OK("Bazinga");
+                }
             }
+            catch BadRequest("Não Salvou");
         }
 
         [HttpGet("{id}", nameof = "GetBatalha")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
-                return value;
+                var herois = await _repo.GetAllHerois();
+
+                return OK(herois);
             } catch (Exception)
             {
                 return BadRequest($"Erro: {ex}");
-
             }
         }
 
@@ -68,7 +70,16 @@ namespace EFCore.WebAPI.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            
+            try
+            {
+                _repo.Delete(batalha);
+
+                if (await _repo.SaveChangeAsync())
+                {
+                    return OK("Bazinga");
+                }
+            }
+            catch BadRequest("Não Salvou");
         }
     }
 }

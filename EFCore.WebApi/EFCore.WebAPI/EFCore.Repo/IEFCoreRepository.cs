@@ -10,5 +10,9 @@ namespace EFCore.Repo
        void Update<T>(T entity) where T : class; 
        void Delete<T>(T entity) where T : class;
        Task<bool> SaveChangeAsync();
+
+       Task<Heroi[]> GetAllHerois();
+       Task<Heroi[]> GetHeroiById(int id);
+       Task<Heroi[]> GetHeroiByNome(string nome);
     }
 }
