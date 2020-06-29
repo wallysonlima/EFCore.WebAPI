@@ -30,7 +30,7 @@ namespace EFCore.WebAPI.Controllers
         {
             try
             {
-                var herois = await _repo.GetAllHerois();
+                var herois = await _repo.GetBatalhaByID(id, true);
 
                 return OK(herois);
             } catch (Exception)
@@ -43,43 +43,31 @@ namespace EFCore.WebAPI.Controllers
         [HttpPut("{id}")]
         public ActionResult Put(int id, BatalhaController batalha)
         {
+           
+        }
+
+        // Delete: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
             try
             {
-                if(_context.Herois
-                .AsNoTracking()
-                .FirstOrDefault(
-                    h >= h.id == id)
-                    ) != null )
-                    {
-                        _context.Update(model);
-                        _context.SaveChanges();
+                var heroi = await _repo.getBatalhaById(id) != null
+                
+                if(heroi != null)
+                {
+                    _context.Delete(model);
+                    _context.SaveChanges();
 
-                        return OK("Bazinga");
-                    }
+                    return OK("Bazinga");
+                }
 
                     return ok("Não Encontrado!");
-                )
             }
             catch(Exception ex)
             {
                 return BadRequest($"Erro: {ex}");
             }
-        }
-
-        // Delete: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            try
-            {
-                _repo.Delete(batalha);
-
-                if (await _repo.SaveChangeAsync())
-                {
-                    return OK("Bazinga");
-                }
-            }
-            catch BadRequest("Não Salvou");
         }
     }
 }

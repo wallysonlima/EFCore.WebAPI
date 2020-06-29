@@ -33,30 +33,57 @@ namespace EFCore.Repo
            return await_context.SaveChangesAsync() > 0;
         }
 
-        public async Task<Heroi[]> GetAllHerois()
+        public async Task<Heroi[]> GetAllHerois(bool incluirBatalha = false)
         {
             IQueryable<Heroi> herois = _context.Herois
                 .Include(herois => h.Identidade)
                 .Include(herois => h.armas);
 
-            query = query.AsNoTracking().OrderBy(herois=>herois.id);
+            if ( incluirBatalha)
+            {
+                query.Include(herois=herois.heroisBatalhas)
+                    .ThenInclude(hb => hb.Batalha);
+            }
 
-            query.Include(herois=herois.heroisBatalhas)
-                .ThenInclude(hb => hb.Batalha);
+            query = query.AsNoTracking().OrderBy(herois=>herois.id);
 
             return await query.ToArrayAsync();
         }
 
-        public Task<Heroi> GetHeroiById(int id)
+        public Task<Heroi> GetHeroiById(int id, bool incluirBatalha = false)
         {
-            throw new NotImplementedException();
+            IQueryable<Heroi> herois = _context.Herois
+                .Include(herois => h.Identidade)
+                .Include(herois => h.armas);
+
+            if ( incluirBatalha)
+            {
+                query.Include(herois=herois.heroisBatalhas)
+                    .ThenInclude(hb => hb.Batalha);
+            }
+
+            query = query.AsNoTracking().OrderBy(herois=>herois.id);
+
+            return await query.ToArrayAsync();
         }
 
-        public Task<Heroi> GetHeroiByNome(string nome)
+        public async Task<Heroi[]> GetHeroisByNome(string nome, bool incluirBatalha = false)
         {
-            throw new NotImplementedException();
+            IQueryable<Heroi> herois = _context.Herois
+                .Include(herois => h.Identidade)
+                .Include(herois => h.armas);
+
+            if ( incluirBatalha)
+            {
+                query.Include(herois=herois.heroisBatalhas)
+                    .ThenInclude(hb => hb.Batalha);
+            }
+
+            query = query.AsNoTracking()
+                    .where(herois => herois.Nome.Contains(nome))
+                    .OrderBy(herois=> herois.id);
+
+            return await query.ToArrayAsync(herois => herois.nome.Contains(nome));
         }
-
-
     }
 }
