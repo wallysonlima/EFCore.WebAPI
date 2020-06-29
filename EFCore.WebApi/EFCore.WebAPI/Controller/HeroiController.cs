@@ -41,7 +41,7 @@ namespace EFCore.WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, Heroi)
+        public ActionResult Put(int id, Heroi heroi)
         {
             try
             {

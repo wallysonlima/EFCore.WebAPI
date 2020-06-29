@@ -24,12 +24,12 @@ namespace EFCore.WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult Get()
+        [HttpGet("{id}", nameof = "GetBatalha")]
+        public string Get(int id)
         {
             try
             {
-                return Ok(new Batalha());
+                return value;
             } catch (Exception)
             {
                 return BadRequest($"Erro: {ex}");
@@ -62,6 +62,13 @@ namespace EFCore.WebAPI.Controllers
             {
                 return BadRequest($"Erro: {ex}");
             }
+        }
+
+        // Delete: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            
         }
     }
 }
