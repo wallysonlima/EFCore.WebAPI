@@ -85,5 +85,37 @@ namespace EFCore.Repo
 
             return await query.ToArrayAsync(herois => herois.nome.Contains(nome));
         }
+
+        public async Task<Batalha[]> GetAllBatalhas(bool incluirHeroi = false)
+        {
+             IQueryable<Heroi> herois = _context.Batalhas;
+
+            if ( incluirHeroi)
+            {
+                query.Include(herois=herois.heroisBatalhas)
+                    .ThenInclude(hb => hb.Heroi);
+            }
+
+            query = query.AsNoTracking().OrderBy(herois=>herois.id);
+
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<Batalha> GetBatalhaById(int id, bool incluirBatalha=false)
+        {
+            IQueryable<Heroi> herois = _context.Batalhas;
+
+            if ( incluirHeroi)
+            {
+                query.Include(herois=herois.heroisBatalhas)
+                    .ThenInclude(hb => hb.Heroi);
+            }
+
+            query = query.AsNoTracking().OrderBy(herois=>herois.id);
+
+            return await query.FirstOrDefaultAsync();
+        }
     }
+
+
 }

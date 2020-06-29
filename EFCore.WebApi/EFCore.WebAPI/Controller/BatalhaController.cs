@@ -11,7 +11,7 @@ namespace EFCore.WebAPI.Controllers
 
         //Consulta
         [HttpPost]
-        public async Task<IActionResult> Post(HeroiController model)
+        public async Task<IActionResult> Post(Heroi model)
         {
             try
             {
@@ -39,11 +39,44 @@ namespace EFCore.WebAPI.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Get()
+        {
+            try
+            {
+                var herois = await _repo.GetAllBatalhas(true);
+
+                return OK(herois);
+            }
+
+            catch(Exception ex)
+            {
+                return BadRequest($"Erro: {ex}");
+            }
+        }
+
         // Update
         [HttpPut("{id}")]
-        public ActionResult Put(int id, BatalhaController batalha)
+        public async Task<IActionResult> Put(int id, BatalhaController batalha)
         {
-           
+            try
+            {
+                var heroi = await _repo.getBatalhaById(id) != null
+                
+                if(heroi != null)
+                {
+                    _context.Update(model);
+                    _context.SaveChanges();
+
+                    return OK("Bazinga");
+                }
+
+                    return ok("Não Encontrado!");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest($"Erro: {ex}");
+            }
         }
 
         // Delete: api/ApiWithActions/5
